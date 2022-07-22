@@ -6,15 +6,21 @@ import '../Verification_Code/verification_code.dart';
 import '../login_page.dart';
 
 class reset_password extends StatefulWidget {
+   final String email;
+  const reset_password({
+    Key ?key,
+    required this.email,
+  }) : super(key: key);
   @override
   _reset_password createState() => _reset_password();
 }
 
 class _reset_password extends State<reset_password> {
+
   bool hidePassword = true;
   bool hidePassword1 = false;
   bool isLoading = false;
-  final TextEditingController emailController = TextEditingController();
+  // final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final ApiClient _apiClient = ApiClient();
   final _formKey = GlobalKey<FormState>();
@@ -49,9 +55,11 @@ class _reset_password extends State<reset_password> {
 
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Something went wrong"),
+          content:  Text(res.data['error']),
           backgroundColor: Colors.red.shade300,
-        ));
+
+        ),
+        );
       }
     }
     else
@@ -62,12 +70,12 @@ class _reset_password extends State<reset_password> {
     }
   }
 
-  @override
-  void _trySubmitForm() {
-    final bool isValid = _formKey.currentState!.validate();
-    if (isValid == true) {
-    }
-  }
+  // @override
+  // void _trySubmitForm() {
+  //   final bool isValid = _formKey.currentState!.validate();
+  //   if (isValid == true) {
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +128,6 @@ class _reset_password extends State<reset_password> {
                   Padding(
                     padding: const EdgeInsets.only(left:25,right: 25),
                     child: TextFormField(
-                      controller: emailController,
                       obscureText: hidePassword,//show/hide password
                       decoration: InputDecoration(
                         hintText: 'New Password',
@@ -144,8 +151,10 @@ class _reset_password extends State<reset_password> {
                             value.trim().isEmpty) {
                           return "Please Re-Enter New Password";
                         }
-                        else if (value.trim().length < 8) {
-                          return "Password must be atleast 8 characters long";
+                        else if (!RegExp(
+                            r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)")
+                            .hasMatch(value)) {
+                          return "Password should contain a minimum of 1 character, 1 special character,1 upper case and numeric,";
                         }
                         return null;
                       },
@@ -191,15 +200,12 @@ class _reset_password extends State<reset_password> {
                                     .isEmpty) {
                               return "Please Re-Enter New Password";
                             }
-                            else if (value
-                                .trim()
-                                .length < 8) {
-                              return "Password must be atleast 8 characters long";
-                            } else if (value != _userName) {
+                             else if (value != _userName) {
                               return "Password must be same as above";
                               return null;
                             };
-                          }),
+                          }
+                          ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 25,left: 15,right: 15),
@@ -213,7 +219,7 @@ class _reset_password extends State<reset_password> {
                                   style: ElevatedButton.styleFrom(
                                     primary: Color(0xff12AFC0),
                                   ),
-                                  onPressed:() {ResetPassword(emailController.text,passwordController.text);},
+                                  onPressed:() {ResetPassword(widget.email,passwordController.text);},
                                   child: Text('CONFIRM',style: TextStyle(fontFamily: 'San Francisco',fontSize: 12,fontWeight: FontWeight.w600),),
                                 )
                             ),

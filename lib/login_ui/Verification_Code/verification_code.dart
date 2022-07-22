@@ -35,7 +35,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   bool isLoading = false;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController otpController = TextEditingController();
-  // final TextEditingController emailController = TextEditingController();
   final ApiClient _apiClient = ApiClient();
 
 
@@ -93,7 +92,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 50,bottom: 10.92,right: 41,left: 34),
+              padding: const EdgeInsets.only(top: 30,bottom: 10.92,right: 41,left: 34),
               child: Text("Verification Code",style: TextStyle(fontSize: 35,color: Color(0xff000000),fontFamily: 'San Francisco',fontWeight: FontWeight.bold),),
             ),
             Padding(
@@ -224,7 +223,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   }
 
   validateOTP(String email,String otp) async {
-
+    setState(() {
+      isLoading = true;
+    });
 
     if (_formKey.currentState!.validate()) {
 
@@ -232,7 +233,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
         email,
         otp,
       );
-
+      setState(() {
+        isLoading = false;
+      });
       print(res);
       //Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeState(accesstoken: '',)));
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -245,18 +248,17 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
 
         )
         );
-
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => reset_password()));
+                builder: (context) => reset_password(email: widget.email)));
 
       } else{
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content:  Text(res.data['error']),
           backgroundColor: Colors.red.shade300,
 
-        )
+        ),
         );
         print(res.statusCode);
 

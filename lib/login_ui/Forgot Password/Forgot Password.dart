@@ -15,16 +15,19 @@ class _SecondRouteState extends State<SecondRoute> {
   final TextEditingController userEmail = TextEditingController();
   final ApiClient _apiClient = ApiClient();
   ForgotPassword(String email,) async {
+    isLoading = true;
 
     if (_formKey.currentState!.validate()) {
       Response res = await _apiClient.ForgotPassword(
         email,
       );
       print(res.statusCode);
+      setState(() {
+        isLoading = false;
+      });
       //Navigator.push(context, MaterialPageRoute(builder: (context)=>MyHomePage(accesstoken: '')));
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       if (res.statusCode==200) {
-
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: const Text('successfully login'),
           backgroundColor: Colors.green.shade300,
@@ -38,26 +41,33 @@ class _SecondRouteState extends State<SecondRoute> {
 
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Error: ${res.data['Message']}'),
+          content:  Text(res.data['error']),
           backgroundColor: Colors.red.shade300,
-        ));
-      }
-    }
-  }
-  final _formKey = GlobalKey<FormState>();
-  // String userEmail = '';
-  void _trySubmitForm() {
-    final bool isValid = _formKey.currentState!.validate();
-    if (isValid == true) {
-      {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => PinCodeVerificationScreen(email: userEmail.text,)),
+
+        ),
         );
       }
     }
+    else
+    {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
+  final _formKey = GlobalKey<FormState>();
+  // void _trySubmitForm() {
+  //   final bool isValid = _formKey.currentState!.validate();
+  //   if (isValid == true) {
+  //     {
+  //       Navigator.push(
+  //         context,
+  //         MaterialPageRoute(
+  //             builder: (context) => PinCodeVerificationScreen(email: userEmail.text,)),
+  //       );
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -145,13 +155,6 @@ class _SecondRouteState extends State<SecondRoute> {
                           primary: Color(0xff12AFC0),
                         ),
                         onPressed: ()async {
-                            setState(() {
-                            isLoading = true;
-                                       });
-                       await Future.delayed(const Duration(seconds: 2));
-                       setState(() {
-                        isLoading = false;
-                           });
                         {
                           ForgotPassword(userEmail.text,);}
                         },

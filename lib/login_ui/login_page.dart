@@ -19,7 +19,7 @@ class _HomeStateState extends State<HomeState> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final ApiClient _apiClient = ApiClient();
-  bool _showPassword = false;
+ // bool _showPassword = false;
 
    login(String email,String password) async {
      setState(() {
@@ -49,7 +49,7 @@ class _HomeStateState extends State<HomeState> {
 
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Something went wrong"),
+          content: Text("Enter valid user name or password"),
           backgroundColor: Colors.red.shade300,
         ));
       }

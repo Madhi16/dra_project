@@ -89,14 +89,14 @@ crossAxisAlignment: CrossAxisAlignment.start,
                         TextStyle(fontFamily: 'San Francisco',fontWeight: FontWeight.bold, fontSize: 15,color: Color(0xff000000)),
                       ),
 
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          primary: Color(0xffA5A5A5),
-                          minimumSize: Size(10, 0)
-                        ),
-                        onPressed: () { },
-                        child: Icon(Icons.more_vert,size: 10,),
-                      ),
+                      // TextButton(
+                      //   style: TextButton.styleFrom(
+                      //     primary: Color(0xffA5A5A5),
+                      //     minimumSize: Size(10, 0)
+                      //   ),
+                      //   onPressed: () { },
+                      //   child: Icon(Icons.more_vert,size: 10,),
+                      // ),
                     ],
                   ),
                 ),

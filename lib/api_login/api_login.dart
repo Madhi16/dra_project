@@ -15,7 +15,7 @@ class ApiClient {
     } on DioError catch (e) {
       //returns the error object if any
       print(e);
-      return e.response!.data;
+      return e.response;
     }
   }
   Future<dynamic> ForgotPassword(String email) async {
@@ -30,8 +30,7 @@ class ApiClient {
       return response;
     } on DioError catch (e) {
       //returns the error object if any
-      print(e);
-      return e.response!.data;
+      return e.response;
     }
   }
   ValidateOTP(String email,String otp) async {
@@ -65,7 +64,7 @@ class ApiClient {
       return response;
     } on DioError catch (e) {
       //returns the error object if any
-      return e.response!.data;
+      return e.response;
     }
   }
 }
