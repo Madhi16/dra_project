@@ -1,10 +1,7 @@
-import 'package:dio/dio.dart';
+import 'package:dra_project/ui/login_ui/verification_code.dart';
 import 'package:flutter/material.dart';
-import '../../api_login/api_login.dart';
-import '../Forgot Password/splash_screen.dart';
-import '../Verification_Code/verification_code.dart';
-import '../login_page.dart';
-
+import '../../models/login_page_api/api_login.dart';
+import 'login_page.dart';
 class reset_password extends StatefulWidget {
    final String email;
   const reset_password({
@@ -14,7 +11,6 @@ class reset_password extends StatefulWidget {
   @override
   _reset_password createState() => _reset_password();
 }
-
 class _reset_password extends State<reset_password> {
 
   bool hidePassword = true;
@@ -38,26 +34,22 @@ class _reset_password extends State<reset_password> {
       setState(() {
         isLoading = false;
       });
-      //Navigator.push(context, MaterialPageRoute(builder: (context)=>MyHomePage(accesstoken: '')));
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      if (res?.statusCode==200??false) {
+      if (res?.statusCode==200) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: const Text('successfully login'),
           backgroundColor: Colors.green.shade300,
 
         ));
-
         Navigator.push(
-
             context,
             MaterialPageRoute(
-                builder: (context) => HomeState(accesstoken: '')));
+                builder: (context) => HomeState(access_token: '')));
 
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content:  Text(res.data['error']),
           backgroundColor: Colors.red.shade300,
-
         ),
         );
       }
@@ -69,18 +61,9 @@ class _reset_password extends State<reset_password> {
       });
     }
   }
-
-  // @override
-  // void _trySubmitForm() {
-  //   final bool isValid = _formKey.currentState!.validate();
-  //   if (isValid == true) {
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(backgroundColor: Colors.white,
           automaticallyImplyLeading: false,
           elevation: 0,
@@ -233,7 +216,7 @@ class _reset_password extends State<reset_password> {
             ),
           ),
         ),
-      ),
+
     );
   }
 }

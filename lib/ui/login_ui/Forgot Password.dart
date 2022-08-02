@@ -1,12 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:dra_project/login_ui/Forgot%20Password/splash_screen.dart';
+import 'package:dra_project/main.dart';
+import 'package:dra_project/ui/login_ui/verification_code.dart';
 import 'package:flutter/material.dart';
-import '../../api_login/api_login.dart';
-import '../Verification_Code/verification_code.dart';
-import '../login_page.dart';
+import '../../models/login_page_api/api_login.dart';
 
 class SecondRoute extends StatefulWidget {
-
   @override
   State<SecondRoute> createState() => _SecondRouteState();
 }
@@ -16,7 +14,6 @@ class _SecondRouteState extends State<SecondRoute> {
   final ApiClient _apiClient = ApiClient();
   ForgotPassword(String email,) async {
     isLoading = true;
-
     if (_formKey.currentState!.validate()) {
       Response res = await _apiClient.ForgotPassword(
         email,
@@ -56,19 +53,6 @@ class _SecondRouteState extends State<SecondRoute> {
     }
   }
   final _formKey = GlobalKey<FormState>();
-  // void _trySubmitForm() {
-  //   final bool isValid = _formKey.currentState!.validate();
-  //   if (isValid == true) {
-  //     {
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //             builder: (context) => PinCodeVerificationScreen(email: userEmail.text,)),
-  //       );
-  //     }
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(backgroundColor: Colors.white,
@@ -111,7 +95,6 @@ class _SecondRouteState extends State<SecondRoute> {
               padding: EdgeInsets.only(top:50,right: 34,left: 34),
               child: TextFormField(
                 controller: userEmail,
-
                 autocorrect: true,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -140,7 +123,6 @@ class _SecondRouteState extends State<SecondRoute> {
                     return 'Please enter valid email';
                   }
                 },
-                // onChanged: (value) => userEmail = value,
               ),
             ),
             Column(

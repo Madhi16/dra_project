@@ -1,22 +1,20 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
+import 'package:dra_project/ui/login_ui/reset_password.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import '../../api_login/api_login.dart';
-import '../Forgot Password/Forgot Password.dart';
-import '../Reset_Password/reset_password.dart';
+import '../../../models/login_page_api/api_login.dart';
+import 'Forgot Password.dart';
 
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home:  PinCodeVerificationScreen(email: '',),
-    );
-  }
-}
+// void main() => runApp(MyApp());
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home:  PinCodeVerificationScreen(email: '',),
+//     );
+//   }
+// }
 
 class PinCodeVerificationScreen extends StatefulWidget {
   final String email;
@@ -131,8 +129,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         fieldWidth: 63,
                         //activeColor: Colors.black
                       ),
-                      // animationDuration: const Duration(milliseconds: 300),
-                      // errorAnimationController: errorController,
 
                       keyboardType: TextInputType.number,
                       boxShadows:  [
@@ -204,7 +200,12 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         style: TextStyle(fontSize: 13,color: Color(0xff808B9E),fontFamily: 'San Francisco'),
                       ),
                       TextButton(
-                        onPressed: () {  },
+                        onPressed: ()async {
+                          await _apiClient.ForgotPassword(
+                            widget.email,
+                          );
+
+                        },
                         child: const Text(
                           'Resend',
                           style:
@@ -221,7 +222,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
       ),
     );
   }
-
   validateOTP(String email,String otp) async {
     setState(() {
       isLoading = true;
@@ -239,29 +239,23 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
       print(res);
       //Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeState(accesstoken: '',)));
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
-
       if (res.statusCode==200) {
-
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: const Text('Successfully login'),
           backgroundColor: Colors.green.shade300,
-
         )
         );
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => reset_password(email: widget.email)));
-
       } else{
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content:  Text(res.data['error']),
           backgroundColor: Colors.red.shade300,
-
         ),
         );
         print(res.statusCode);
-
       };
     }
   }
