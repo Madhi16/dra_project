@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dra_project/basic_screen.dart';
+import 'package:dra_project/common/no_result.dart';
 import 'package:dra_project/screens/assessor_provider.dart';
 import 'package:dra_project/screens/screens.dart';
 import 'package:dra_project/search_bar.dart';
@@ -21,6 +22,7 @@ class _FirstScreen1State extends State<FirstScreen1> {
   Widget appBarTitle = new Text("House Owner Information",style: TextStyle(fontSize: 17),);
   Icon actionIcon = new Icon(Icons.search);
   late ScrollController controller;
+  late FocusNode focusNode1;
   late Future<List<AssessmentListModel>> futureData;
   late SharedPreferences localStorage;
   bool isLoading = false;
@@ -50,6 +52,7 @@ class _FirstScreen1State extends State<FirstScreen1> {
   void initState() {
     super.initState();
     var accessToken = "";
+    focusNode1 = FocusNode();
 
     // SharedPreferences.getInstance().then((token) {
     //   accessToken = token.getString("accessToken")!;
@@ -63,6 +66,7 @@ class _FirstScreen1State extends State<FirstScreen1> {
 
   @override
   void dispose() {
+    focusNode1.dispose();
     controller.removeListener(_scrollListener);
     super.dispose();
   }
@@ -90,6 +94,8 @@ class _FirstScreen1State extends State<FirstScreen1> {
 
                     }, icon: Icon(Icons.close)) as Icon;*/
                     this.appBarTitle = new TextField(
+                      autofocus: true,
+                      focusNode: focusNode1,
                       style: new TextStyle(
                         color: Colors.white,
                       ),
@@ -118,7 +124,27 @@ class _FirstScreen1State extends State<FirstScreen1> {
                     Provider.of<AssessorProvider>(context, listen: false).getHouseOwnerList("");
                     this.appBarTitle = new Text("House Owner Information",style: TextStyle(fontSize: 17));
                   }
-
+                  // Expanded(
+                  //   child: TextField(
+                  //     controller: _searchQueryController,
+                  //     decoration: InputDecoration(
+                  //         hintText: "Search by name ",
+                  //         hintStyle: TextStyle(color: Colors.black87),
+                  //         border: InputBorder.none),
+                  //
+                  //     onChanged: (content){
+                  //
+                  //       if(content.length > 1){
+                  //         Provider.of<AssessorProvider>(context,listen: false).getAssessmentBasedOnDate("search","$content");
+                  //         defaultdate = false;
+                  //         print("svsdvsdvdsvdsv $content");
+                  //       }else if (content.length == 0) {
+                  //         Provider.of<AssessorProvider>(context,listen: false).getAssessmentBasedOnDate("search","");
+                  //         defaultdate = false;
+                  //       }
+                  //     },
+                  //   ),
+                  // );
                 });
               },
             ),
@@ -129,7 +155,7 @@ class _FirstScreen1State extends State<FirstScreen1> {
                 child: CircularProgressIndicator(),
               )
 
-          : ListView.builder(
+          : Container(child:_provider.houseOwnerList.isEmpty ? Center(child: EmptyData(),) :  ListView.builder(
               itemCount: _provider.houseOwnerList.length,
               itemBuilder: (BuildContext context, int index) {
                 final assimentList = _provider.houseOwnerList[index];
@@ -148,7 +174,7 @@ class _FirstScreen1State extends State<FirstScreen1> {
                   },
                 );
                 //  NewWidget(assimentList: assimentList);
-              }),
+              })),
     );
   }
 

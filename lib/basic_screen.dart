@@ -309,7 +309,7 @@ class _BasicState extends State<Basic> {
                 Padding(
                     padding: const EdgeInsets.only(left: 15, right: 16, bottom: 10),
                     child: Text(
-                      '${assimentList.firstName} ${assimentList.lastName}',
+                      '${assimentList.firstName}',
                       style: TextStyle(
                           color: Color(0xff131313),
                           fontSize: 12,
@@ -553,11 +553,7 @@ class _BasicState extends State<Basic> {
                                                   ),
                                                   formatButtonVisible: false,
                                                   titleCentered: true,
-                                                  headerPadding:
-                                                  EdgeInsets.only(left: 200),
-                                                  rightChevronPadding:
-                                                  EdgeInsets.only(
-                                                      left: 5, right: 5),
+
                                                   titleTextStyle: TextStyle(
                                                       color: Color(0xff16698C)),
                                                 ),

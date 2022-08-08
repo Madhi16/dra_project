@@ -20,6 +20,7 @@ class submittedlistform {
     return data;
   }
 }
+
 class AssessmentDetailsList {
   String? eaveFlashingFeet;
   String? eaveFlashingInches;
@@ -127,6 +128,7 @@ class AssessmentDetailsList {
   String? island;
   String? homeNumber;
   String? settlement;
+  List<String>? damageSnaps;
 
   AssessmentDetailsList(
       {this.eaveFlashingFeet,
@@ -234,6 +236,7 @@ class AssessmentDetailsList {
         this.streetAddress,
         this.island,
         this.homeNumber,
+        this.damageSnaps,
         this.settlement});
 
   AssessmentDetailsList.fromJson(Map<String, dynamic> json) {
@@ -343,6 +346,7 @@ class AssessmentDetailsList {
     island = json['island'];
     homeNumber = json['home-number'];
     settlement = json['settlement'];
+    damageSnaps = json['damage-snaps'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -455,6 +459,7 @@ class AssessmentDetailsList {
     data['island'] = this.island;
     data['home-number'] = this.homeNumber;
     data['settlement'] = this.settlement;
+    data['damage-snaps'] = this.damageSnaps;
     return data;
   }
 }

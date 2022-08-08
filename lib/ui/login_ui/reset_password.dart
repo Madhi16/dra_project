@@ -44,7 +44,7 @@ class _reset_password extends State<reset_password> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => HomeState(access_token: '')));
+                builder: (context) => login_page(access_token: '')));
 
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

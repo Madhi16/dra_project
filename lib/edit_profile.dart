@@ -94,6 +94,7 @@ class _profscreenState1 extends State<profscreen> {
                 padding: const EdgeInsets.all(5),
                 child: Image.asset('assets/images/img_2.png'),
               ),
+
               Padding(
                 padding: const EdgeInsets.only(left: 25,right: 25,bottom: 25),
                 child: TextFormField(
@@ -256,6 +257,12 @@ class _profscreenState1 extends State<profscreen> {
     var state = selectstatecontroller.text;
     var city = selectcitycontroller.text;
     var pincode = zipcodecontroller.text;
+
+
+    final mobileRemove = mobile_no.replaceAll(RegExp('-'), ''); // abc
+
+    print("svdvdavdavdasv $mobileRemove");
+
     var accessToken = '';
     await SharedPreferences.getInstance().then((token) {
       accessToken = token.getString("accessToken")!;
@@ -269,7 +276,7 @@ class _profscreenState1 extends State<profscreen> {
       accessToken,
       first_name,
       last_name,
-      mobile_no,
+      mobileRemove,
       address,
       state,
       city,

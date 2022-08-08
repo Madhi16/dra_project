@@ -23,7 +23,7 @@ class _Change_PasswordState extends State<Change_Password> {
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
   bool hidePassword = true;
-  bool hidePassword1 = false;
+  bool hidePassword1 = true;
   String _userName = '';
   Change_Password(String password) async {
     setState(() {
@@ -138,7 +138,7 @@ class _Change_PasswordState extends State<Change_Password> {
                       } else if (!RegExp(
                               r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)")
                           .hasMatch(value)) {
-                        return "Password should contain a minimum of 1 character, 1 special character,1 upper case and numeric,";
+                        return "Password should contain a minimum of 8 character,\n 1 special character,1 upper case and numeric,";
                       }
                       return null;
                     },

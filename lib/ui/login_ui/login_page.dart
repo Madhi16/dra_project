@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/login_page_api/api_login.dart';
 import '../../screens/screens.dart';
-import 'Forgot Password.dart';
+import 'ForgotPassword.dart';
 
-class HomeState extends StatefulWidget {
+class login_page extends StatefulWidget {
 
-  HomeState({Key ?key, required String access_token}) : super(key: key);
+  login_page({Key ?key, required String access_token}) : super(key: key);
 
   @override
-  State<HomeState> createState() => _HomeStateState();
+  State<login_page> createState() => _login_pageState();
 }
 
-class _HomeStateState extends State<HomeState> {
+class _login_pageState extends State<login_page> {
 
   late SharedPreferences localStorage;
   bool isLoading = false;
@@ -45,7 +45,7 @@ class _HomeStateState extends State<HomeState> {
           content: const Text('successfully login'),
           backgroundColor: Colors.green.shade300,
         ));
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => MyHomePage(accesstoken: '')));
@@ -69,8 +69,8 @@ class _HomeStateState extends State<HomeState> {
   @override
   Widget build(BuildContext context) {
    // emailController.text = "manivel@zaigoinfotech.com"; //Remove this before delivery
-   emailController.text = "madhialagan@zaigoinfotech.com"; //Remove this before delivery
-   passwordController.text = "Madhi@20"; //Remove this before delivery
+  //  emailController.text = "madhialagan@zaigoinfotech.com"; //Remove this before delivery
+    //passwordController.text = "Madhi@20"; //Remove this before delivery
    // passwordController.text = "password"; //Remove this before delivery
      SharedPreferences.getInstance().then((value){
        setState(() {

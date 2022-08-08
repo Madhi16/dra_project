@@ -21,14 +21,14 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin{
   late SharedPreferences localStorage;
   final ApiClient _apiClient = ApiClient();
   bool isLoading = false;
   Future<void> logout() async {
     await _apiClient.Logout(widget.toString());
     Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => HomeState(access_token: '')));
+        MaterialPageRoute(builder: (context) => login_page(access_token: '')));
   }
 
   final TextEditingController _searchQueryController =
@@ -81,6 +81,8 @@ class _MyHomePageState extends State<MyHomePage> {
   DateTime _focusedDay = DateTime.now();
   DateTime _selectedDay = DateTime.now();
 
+  late TabController _tabController;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -90,6 +92,10 @@ class _MyHomePageState extends State<MyHomePage> {
         localStorage = value;
       });
     });
+
+
+    _tabController = TabController(length: 2, vsync: this);
+
     super.initState();
   }
 
@@ -131,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 title: Padding(
                   padding: const EdgeInsets.only(left: 8.0, bottom: 21),
-                  child: Image.asset('assets/images/img.png',width: 100,height: 100,),
+                  child: Image.asset('assets/images/img.png',width: 80,height: 80,),
                 ),
                 backgroundColor: Color(0xff16698c),
                 centerTitle: true,
@@ -186,15 +192,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                          _hasText=true;
                                         });
 
-                                        Provider.of<AssessorProvider>(context,listen: false).getAssessmentBasedOnDate("search","$content");
-                                        defaultdate = false;
+                                        _tabController.index==0?Provider.of<AssessorProvider>(context,listen: false).getAssessmentBasedOnDate("search","$content"):
+                                        Provider.of<AssessorProvider>(context,listen: false).getSubmitedBasedOnDate("search","$content");                                        defaultdate = false;
                                         print("svsdvsdvdsvdsv $content");
                                       }else if (content.length == 0) {
                                         setState(() {
                                           _hasText=false;
                                         });
 
-                                        Provider.of<AssessorProvider>(context,listen: false).getAssessmentBasedOnDate("search","");
+                                        _tabController.index==0?  Provider.of<AssessorProvider>(context,listen: false).getAssessmentBasedOnDate("search","") :
+                                        Provider.of<AssessorProvider>(context,listen: false).getSubmitedBasedOnDate("search","");
                                         defaultdate = false;
                                       }
 
@@ -290,7 +297,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Padding(
                                   padding: const EdgeInsets.only(right: 70.0),
                                   child: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
                                     icon: Icon(
                                       Icons.close,
                                       color: Color(0xffFFFFFF),
@@ -377,12 +386,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                   fontFamily: 'San Francisco',
                                   color: Color(0xffFFFFFF))),
                           onTap: () async {
-                            await _apiClient.Logout(
-                                localStorage.getString("accessToken") ?? '');
+
+                            Navigator.pop(context);
+
+                            // await _apiClient.Logout(
+                            //     localStorage.getString("accessToken") ?? '');
+
+                            SharedPreferences preferences = await SharedPreferences.getInstance();
+                            await preferences.clear();
+
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => HomeState(
+                                    builder: (context) => login_page(
                                         access_token: 'access_token')));
                           },
                         ),
@@ -493,11 +509,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           formatButtonVisible: false,
                           titleCentered: true,
-                          headerPadding: EdgeInsets.only(
-                              left: 200, top: 1),
-                          rightChevronPadding:
-                          EdgeInsets.only(
-                              left: 5, right: 5),
+
+
                           titleTextStyle: TextStyle(
                               color: Color(0xff16698C)),
                         ),
@@ -531,7 +544,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                var date="${_focusedDay.year}/${_focusedDay.month}/${_focusedDay.day}";
+                                var date="${_focusedDay.month}/${_focusedDay.day}/${_focusedDay.year}";
                                 Provider.of<AssessorProvider>(context,listen: false).getAssessmentBasedOnDate("assign_date",date);
                                 defaultdate = false;
 
@@ -549,7 +562,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                               },
                               child: Text(
-                                'CONFIRM',
+                                'SUBMIT',
                                 style: TextStyle(
                                     fontWeight:
                                     FontWeight.w600,

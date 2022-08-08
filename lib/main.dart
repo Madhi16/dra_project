@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ? MyHomePage(
                   accesstoken: token,
                 )
-              : HomeState(
+              : login_page(
                   access_token: '',
                 )));
     });

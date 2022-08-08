@@ -122,5 +122,31 @@ class AssessorProvider extends ChangeNotifier {
     });
   }
 
+
+  getSubmitedBasedOnDate(String params , String value) async {
+    SharedPreferences.getInstance().then((token) async {
+      String accessToken = token.getString("accessToken")!;
+      _isLoading = true;
+      notifyListeners();
+      // assign_date
+      final response = await get(
+          Uri.parse(
+              'http://3.223.85.137/disaster_reconstruction/api/assessment_requests/submited_form?$params=$value'),
+          headers: {'Authorization': 'Bearer $accessToken'});
+      if (response.statusCode == 200) {
+        _assessmentSubmittedList = (json.decode(response.body)['assessmentList'] as List)
+            .map((e) => AssessmentList.fromJson(e))
+            .toList();
+        _isLoading = false;
+        notifyListeners();
+      } else {
+        _isLoading = false;
+        notifyListeners();
+        throw Exception('Unexpected error occured!');
+      }
+    });
+  }
+
+
   List<AssessmentList> get assessmentList => _assessmentList ?? [];
 }

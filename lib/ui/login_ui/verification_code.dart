@@ -3,8 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:dra_project/ui/login_ui/reset_password.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:timer_button/timer_button.dart';
 import '../../../models/login_page_api/api_login.dart';
-import 'Forgot Password.dart';
+import 'ForgotPassword.dart';
 
 // void main() => runApp(MyApp());
 // class MyApp extends StatelessWidget {
@@ -12,7 +13,7 @@ import 'Forgot Password.dart';
 //   Widget build(BuildContext context) {
 //     return MaterialApp(
 //       home:  PinCodeVerificationScreen(email: '',),
-//     );
+//     );bbb
 //   }
 // }
 
@@ -75,11 +76,11 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
         title: Row(
           children: [
             IconButton(icon: Icon(Icons.arrow_back_ios_rounded),onPressed: (){
-               Navigator.push(
-                 context,
-                 MaterialPageRoute(
-                     builder: (context) =>  SecondRoute()),
-               );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>  SecondRoute()),
+              );
             },color: Color(0xff98a1b0),),
             Text('Back',style: TextStyle(color: Color(0xff98a1b0),fontFamily: 'San Francisco',fontWeight: FontWeight.w500),),
           ],
@@ -168,11 +169,11 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                           setState(() {
                             isLoading = false;
                           });
-                        {
+                          {
 
-                         validateOTP(widget.email, otpController.text );
+                            validateOTP(widget.email, otpController.text );
 
-                        }},
+                          }},
                         child:(isLoading)
                             ? const SizedBox(
                             width: 16,
@@ -199,19 +200,18 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                         'If you don`t receive any code?',
                         style: TextStyle(fontSize: 13,color: Color(0xff808B9E),fontFamily: 'San Francisco'),
                       ),
-                      TextButton(
+                      TimerButton(
+                        label: "Resend",
+                        timeOutInSeconds: 30,
                         onPressed: ()async {
                           await _apiClient.ForgotPassword(
                             widget.email,
                           );
-
                         },
-                        child: const Text(
-                          'Resend',
-                          style:
-                          TextStyle(fontSize: 13,color: Color(0xff16698C),fontFamily: 'San Francisco'),
-                        ),
-                      )
+                        disabledTextStyle: new TextStyle(fontSize: 10.0),
+                        activeTextStyle: new TextStyle(fontSize: 10.0, color: Color(0xff16698C)),
+                        buttonType: ButtonType.OutlineButton,
+                      ),
                     ],
                   ),
                 ),
@@ -226,9 +226,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
     setState(() {
       isLoading = true;
     });
-
     if (_formKey.currentState!.validate()) {
-
       Response res = await _apiClient.ValidateOTP(
         email,
         otp,
@@ -241,7 +239,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       if (res.statusCode==200) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text('Successfully login'),
+          content: const Text('OTP Valid'),
           backgroundColor: Colors.green.shade300,
         )
         );
@@ -259,6 +257,5 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
       };
     }
   }
-
 }
 

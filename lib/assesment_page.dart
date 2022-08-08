@@ -35,9 +35,10 @@ class _AssesmentPageState extends State<AssesmentPage> with TickerProviderStateM
   void initState() {
 
     super.initState();
-    myTabController=TabController(initialIndex: 0,length: _tabs.length,vsync: this);
+   myTabController=TabController(initialIndex: 0,length: _tabs.length,vsync: this);
 
   }
+
 
 
 
@@ -95,13 +96,13 @@ class _AssesmentPageState extends State<AssesmentPage> with TickerProviderStateM
         title: Column(
           children: [
             Text(
-              'Assesment ID',
+              'Assesment Form',
               style:
-              TextStyle(fontSize: 10, fontFamily: 'San Francisco'),
+              TextStyle(fontSize: 16, fontFamily: 'San Francisco'),
             ),
-            Text('#12AAG3GDG4DFS643',
-                style: TextStyle(
-                    fontSize: 14, fontFamily: 'San Francisco'))
+            // Text('#12AAG3GDG4DFS643',
+            //     style: TextStyle(
+            //         fontSize: 14, fontFamily: 'San Francisco'))
           ],
         ),
         leading: IconButton(
@@ -138,9 +139,9 @@ class _AssesmentPageState extends State<AssesmentPage> with TickerProviderStateM
         physics: NeverScrollableScrollPhysics(),
         //  controller: controller,
         children: [
-          Damages(tabController: this.myTabController,),
+          Damages(tabController: this.myTabController, ids: '${widget.str_id}',),
           Comments(tabController: this.myTabController, str_id: '${widget.str_id}',),
-          AddPhoto(tabController: this.myTabController,),
+          AddPhoto(tabController: this.myTabController, strIds: '${widget.str_id}',),
         ],
       ),
     );

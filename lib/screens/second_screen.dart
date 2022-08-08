@@ -116,7 +116,7 @@ class _SecondScreenState extends State<SecondScreen> {
                 onTap: () {
 
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SubmitDetailsPage(ids: '${assimentList.id}',)));
+                      MaterialPageRoute(builder: (context) => SubmitDetailsPage(ids: '${assimentList.assessmentRequestId}',)));
 
                 },
               );
@@ -203,7 +203,7 @@ class NewWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${assimentList.firstName} ${assimentList.lastName}',
+                  '${assimentList.firstName}',
                   style: TextStyle(
                       fontFamily: 'San Francisco',
                       fontWeight: FontWeight.bold,
@@ -285,38 +285,38 @@ class NewWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 18.0, right: 8),
             child: Divider(),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 18.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '${assimentList.webId}',
-                  style: TextStyle(
-                      fontFamily: 'San Francisco',
-                      color: Color(0xff16698C),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700),
-                ),
-                // Padding(
-                //   padding: const EdgeInsets.only(bottom: 8.0, right: 10),
-                //   child: Row(
-                //     children: [
-                //       Icon(
-                //         Icons.calendar_month_outlined,
-                //         color: Colors.black,
-                //         size: 12,
-                //       ),
-                //       Text(
-                //         '${assimentList.assignedDate}',
-                //         style: TextStyle(color: Colors.black, fontSize: 10),
-                //       ),
-                //     ],
-                //   ),
-                // )
-              ],
-            ),
-          )
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 18.0),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       Text(
+          //         '${assimentList.webId}',
+          //         style: TextStyle(
+          //             fontFamily: 'San Francisco',
+          //             color: Color(0xff16698C),
+          //             fontSize: 10,
+          //             fontWeight: FontWeight.w700),
+          //       ),
+          //       // Padding(
+          //       //   padding: const EdgeInsets.only(bottom: 8.0, right: 10),
+          //       //   child: Row(
+          //       //     children: [
+          //       //       Icon(
+          //       //         Icons.calendar_month_outlined,
+          //       //         color: Colors.black,
+          //       //         size: 12,
+          //       //       ),
+          //       //       Text(
+          //       //         '${assimentList.assignedDate}',
+          //       //         style: TextStyle(color: Colors.black, fontSize: 10),
+          //       //       ),
+          //       //     ],
+          //       //   ),
+          //       // )
+          //     ],
+          //   ),
+          // )
         ],
       ),
     );

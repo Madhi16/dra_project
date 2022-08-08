@@ -91,7 +91,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     print("========================");
                     print(assimentList.id);
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Basic(ids: '${assimentList.id}',)));
+                        MaterialPageRoute(builder: (context) => Basic(ids: '${assimentList.assessmentRequestId}',)));
                   },
                 );
                 //  NewWidget(assimentList: assimentList);
@@ -120,7 +120,7 @@ class NewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Padding(padding: EdgeInsets.only(left: 5,right: 5,top: 5),child:Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.0),
       ),
@@ -135,7 +135,7 @@ class NewWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${assimentList.firstName} ${assimentList.lastName}',
+                  '${assimentList.firstName}',
                   style: const TextStyle(
                       fontFamily: 'San Francisco',
                       fontWeight: FontWeight.bold,
@@ -231,25 +231,27 @@ class NewWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 18.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(
-                  '${assimentList.webId}',
+    Padding(
+    padding: const EdgeInsets.only(bottom: 6.0, right: 2),
+    child:Text(
+                  'Assigned Date :',
                   style: TextStyle(
                       fontFamily: 'San Francisco',
                       color: Color(0xff16698C),
                       fontSize: 10,
                       fontWeight: FontWeight.w700),
-                ),
+                )),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0, right: 10),
+                  padding: const EdgeInsets.only(bottom: 6.0, right: 10),
                   child: Row(
                     children: [
-                      Icon(
-                        Icons.calendar_month_outlined,
-                        color: Colors.black,
-                        size: 12,
-                      ),
+                      // Icon(
+                      //   Icons.calendar_month_outlined,
+                      //   color: Colors.black,
+                      //   size: 11,
+                      // ),
                       Text(
                         '${assimentList.assignedDate}',
                         style: TextStyle(color: Colors.black, fontSize: 10),
@@ -262,7 +264,7 @@ class NewWidget extends StatelessWidget {
           )
         ],
       ),
-    );
+    ));
   }
 }
 

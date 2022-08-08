@@ -13,9 +13,12 @@ class Comments extends StatefulWidget {
 }
 
 class _CommentsState extends State<Comments> {
+
   final TextEditingController commentController = TextEditingController();
   bool isLoading = false;
   final ApiClient _apiClient = ApiClient();
+  final _formKey = GlobalKey<FormState>();
+
   // void initState() {
   //   super.initState();
   //   var accessToken = "";
@@ -30,7 +33,9 @@ class _CommentsState extends State<Comments> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: isLoading == true ? Center(child: CircularProgressIndicator(),):SingleChildScrollView(
-        child: Column(
+        child: Form(
+    key: _formKey,
+    child:Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
@@ -48,7 +53,7 @@ class _CommentsState extends State<Comments> {
               padding: const EdgeInsets.only(left: 15, right: 16, bottom: 308),
               child: TextFormField(
                 controller: commentController,
-                minLines: 6,
+                minLines: 8,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 decoration: InputDecoration(
@@ -61,6 +66,12 @@ class _CommentsState extends State<Comments> {
                       borderSide:
                       BorderSide(color: Color(0xffF2F2F2), width: 344)),
                 ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'This field is required';
+                  }
+                  return null;
+                },
               ),
             ),
             // Padding(
@@ -78,7 +89,7 @@ class _CommentsState extends State<Comments> {
             // ),
           ],
         ),
-      ),
+      )),
       bottomNavigationBar: Container(
         child: Row(
           children: [
@@ -88,7 +99,7 @@ class _CommentsState extends State<Comments> {
                 color:Color(0xff12AFC0) ,
                 textColor: Colors.white,
                 onPressed: () {
-
+                  widget.tabController.animateTo(0);
                 },
                 child: Text('PREVIOUS',
                     style: TextStyle(color: Colors.white,
@@ -105,6 +116,14 @@ class _CommentsState extends State<Comments> {
                 color:Color(0xff16698C) ,
                 textColor: Colors.white,
                 onPressed: () async {
+
+                  final isValid = _formKey.currentState!.validate();
+                  if (!isValid) {
+                    //  Get.off(HomePage());
+
+                    return;
+                  }
+
                   var accessToken;
                   print(commentController.text);
                   print(widget.str_id);
@@ -137,16 +156,19 @@ class _CommentsState extends State<Comments> {
     //   print("Comments${token.getString("Comments")}");
     //   // fetchData(accessToken);
     // });
-    var Comments = commentController.text;
+  //  var Comments = commentController.text;
     dynamic res = await _apiClient.Comment_screen(
-        Comments,
+        commentController.text ,
         accessToken,
         widget.str_id
     );
 
     if (res?.statusCode == 200) {
+
+      print("dasdasdasd $res");
+
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('successfully'),
+        content: const Text('Assessment Form Store Successfully'),
         backgroundColor: Colors.green.shade300,
       ));
 

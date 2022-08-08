@@ -212,8 +212,8 @@ class _requestinfoState extends State<requestinfo> {
                             validator: (value) {
                               if (value == null || value.trim().isEmpty) {
                                 return 'Please Enter Street Address';
-                              } else if (value == null || value.length != 5) {
-                                return 'Please Enter Street Address';
+                              } else if (value == null || value.length < 5) {
+                                return 'Please Enter More than 5 characters';
                               }
                               // Return null if the entered email is valid
                             },
@@ -294,7 +294,7 @@ class _requestinfoState extends State<requestinfo> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => Basic(
-                                                  ids: '',
+                                                  ids: '${widget.ids}',
                                                 )));
                                   },
                                   child: Text(

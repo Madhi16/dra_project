@@ -212,13 +212,13 @@ class ApiClient {
     }
   }
 
-  Future<dynamic> damagesApi(_datas, ) async {
+  Future<dynamic> damagesApi(_datas, id) async {
 
     print("xcscdscdsfdsfsdf $_datas");
 
     try {
       Response response = await _dio.post(
-        'http://3.223.85.137/disaster_reconstruction/api/assessments/store/1',
+        'http://3.223.85.137/disaster_reconstruction/api/assessments/store/${id}',
         // options: Options(
         //   headers: {'Authorization': 'Bearer $accesstoken'},
         // ),
@@ -234,14 +234,18 @@ class ApiClient {
 
   Future<dynamic> Comment_screen(String Comments,
       String accesstoken,String str_id) async {
+
+
+    print("fsfsfsfsf $Comments  : $str_id");
+
     try {
       print(Comments);
       Response response = await _dio.post(
         'http://3.223.85.137/disaster_reconstruction/api/assessments/store/1',
-        options: Options(
-          headers: {'Authorization': 'Bearer $accesstoken'},
-        ),
-        data: {'Comments': Comments, 'str_id': str_id },
+        // options: Options(
+        //   headers: {'Authorization': 'Bearer $accesstoken'},
+        // ),
+        data: {'additional-comment': "$Comments", 'request_id': "$str_id", 'form_type': 'create', 'step': '3' },
       );
       //returns the successful user data json object
       return response;
